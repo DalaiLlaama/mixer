@@ -1,4 +1,26 @@
 sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    John-->>Alice: Great!
-    
+participant sc as SmartContract
+participant c as MixerClient
+participant w as Wallet
+participant b as Browser    
+    Note over sc,b: Deposit
+    b->>c: Enter amount. Request deposit.
+    c->>w: Transaction details
+    w->>c: Signed transaction
+    c->>sc: Call deposit(). msg.value=amount to deposit
+    note over sc: check balance
+    note over sc: add pub key to new leaf
+    sc->>c: Tx Id as receipt
+Note over sc,b: Later...
+Note over sc,b: Withdrawal
+    b->>w: select receiving account
+    b->>c: Enter amount
+    c->>w: Tx details
+    w->>c: SIgned tx
+    note over c: Generate SNARK proof. Return nullifier
+    c->>sc: Call withdraw()
+    note over sc: Validate proof
+    note over sc: Check nullifier not in tree
+    note over sc: Add nullifier to tree
+    sc->>w: Send amount to msg.sender
+    sc->>c: Tx Id
