@@ -14,12 +14,14 @@ opt Deposit
 end
 Note over sc,b: Later...
 opt Withdrawal
-    b->>w: select receiving account
-    b->>c: Enter amount
+    b->>w: select sending account
+    b->>c: Enter amount to withdraw
     c->>w: Tx details
     w->>c: SIgned tx
     note over c: Generate SNARK proof. Return nullifier
-    c->>sc: Call withdraw()
+    b->>w: select receiving account
+    b->>c: Request deposit
+    c->>sc: Call withdraw(). Pass proof, nullifier, ...
     note over sc: Validate proof
     note over sc: Check nullifier not in tree
     note over sc: Add nullifier to tree
