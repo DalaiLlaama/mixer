@@ -3,7 +3,7 @@ participant sc as SmartContract
 participant c as MixerClient
 participant w as Wallet
 participant b as Browser    
-    Note over sc,b: Deposit
+opt Deposit
     b->>c: Enter amount. Request deposit.
     c->>w: Transaction details
     w->>c: Signed transaction
@@ -11,8 +11,9 @@ participant b as Browser
     note over sc: check balance
     note over sc: add pub key to new leaf
     sc->>c: Tx Id as receipt
+end
 Note over sc,b: Later...
-Note over sc,b: Withdrawal
+opt Withdrawal
     b->>w: select receiving account
     b->>c: Enter amount
     c->>w: Tx details
@@ -24,3 +25,4 @@ Note over sc,b: Withdrawal
     note over sc: Add nullifier to tree
     sc->>w: Send amount to msg.sender
     sc->>c: Tx Id
+end
